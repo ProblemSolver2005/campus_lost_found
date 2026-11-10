@@ -1,0 +1,37 @@
+
+{% extends 'portal/base.html' %}
+
+{% block content %}
+
+<div class="detail-container">
+
+    {% if item.image %}
+        <img src="{{ item.image.url }}" class="detail-image" alt="{{ item.title }}">
+    {% endif %}
+
+    <span class="tag">{{ item.item_type }}</span>
+
+    <h1>{{ item.title }}</h1>
+
+    <p><strong>Category:</strong> {{ item.category }}</p>
+
+    <p><strong>Description:</strong></p>
+    <p>{{ item.description }}</p>
+
+    <p><strong>Location:</strong> {{ item.location }}</p>
+
+    <p><strong>Contact:</strong> {{ item.contact }}</p>
+
+    <p><strong>Posted by:</strong> {{ item.created_by.username }}</p>
+
+    <p><strong>Date:</strong> {{ item.created_at|date:"d M Y" }}</p>
+
+    <p><strong>Status:</strong> {{ item.status }}</p>
+
+    <a href="{% url 'home' %}" class="secondary-button">
+        Back to Home
+    </a>
+
+</div>
+
+{% endblock %}

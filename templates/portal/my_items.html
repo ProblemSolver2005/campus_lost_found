@@ -1,0 +1,84 @@
+
+{% extends 'portal/base.html' %}
+
+{% block content %}
+
+<section class="container">
+
+    <h2>My Listings</h2>
+
+    <a href="{% url 'create_item' %}" class="primary-button">
+        Add New Item
+    </a>
+
+    <div class="item-grid">
+
+        {% for item in items %}
+
+            <div class="item-card">
+
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                {% else %}
+                    <div class="no-image">No Image</div>
+                {% endif %}
+
+                <div class="item-content">
+
+                    <h3>{{ item.title }}</h3>
+
+                    <p>{{ item.item_type }}</p>
+
+                    <p>Status: {{ item.status }}</p>
+
+                    <a href="{% url 'item_detail' item.id %}">
+                        View
+                    </a>
+
+                    <a href="{% url 'edit_item' item.id %}">
+                        Edit
+                    </a>
+
+                    <form method="POST"
+                          action="{% url 'delete_item' item.id %}"
+                          class="inline-form delete-form">
+
+                        {% csrf_token %}
+
+                        <button type="submit" class="danger-button">
+                            Delete
+                        </button>
+
+                    </form>
+
+                    {% if item.status == 'Active' %}
+
+                        <form method="POST"
+                              action="{% url 'mark_returned' item.id %}"
+                              class="inline-form">
+
+                            {% csrf_token %}
+
+                            <button type="submit" class="success-button">
+                                Mark Returned
+                            </button>
+
+                        </form>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <p>You haven't posted any items yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
